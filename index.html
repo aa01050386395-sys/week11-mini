@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff8f1">
+  <title>민주의 작은 사전 | 나를 소개합니다</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap');
+
+    :root {
+      color-scheme: light;
+      --paper: #fffaf5;
+      --paper-deep: #fff1e9;
+      --ink: #51454a;
+      --muted: #96858a;
+      --accent: #e98f9d;
+      --accent-dark: #c96e81;
+      --peach: #f5bc9b;
+      --lavender: #c5b6df;
+      --mint: #b6d6c6;
+      --line: #f0e2dc;
+      --shadow: 0 18px 55px rgba(109, 77, 75, .12);
+      --font-scale: 1;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 9% 12%, rgba(245,188,155,.22), transparent 28rem),
+        radial-gradient(ellipse at 91% 30%, rgba(197,182,223,.2), transparent 27rem),
+        #f7eee9;
+      font-family: "Gowun Dodum", "Malgun Gothic", sans-serif;
+      font-size: calc(16px * var(--font-scale));
+      line-height: 1.8;
+      transition: background .35s, color .35s;
+    }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    .decor { position: fixed; z-index: -1; opacity: .7; pointer-events: none; }
+    .decor.one { top: 17%; left: 3%; font-size: 30px; transform: rotate(-15deg); }
+    .decor.two { top: 67%; right: 4%; font-size: 34px; transform: rotate(12deg); }
+    .decor.three { top: 89%; left: 7%; font-size: 24px; }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: center;
+      padding: 12px 18px;
+      background: rgba(255,250,245,.83);
+      border-bottom: 1px solid rgba(240,226,220,.8);
+      backdrop-filter: blur(16px);
+    }
+    .toolbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: min(1240px, 100%);
+    }
+    .brand { display: flex; align-items: center; gap: 9px; font-family: "Jua", sans-serif; font-size: 19px; white-space: nowrap; }
+    .brand-mark { display: grid; width: 34px; height: 34px; place-items: center; background: var(--paper-deep); border-radius: 12px; }
+    .tools { display: flex; align-items: center; gap: 7px; }
+    .tool-btn, .icon-btn {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: 13px;
+      cursor: pointer;
+      transition: transform .18s, background .2s, border-color .2s;
+    }
+    .tool-btn { padding: 8px 11px; font-size: 13px; white-space: nowrap; }
+    .icon-btn { width: 39px; height: 39px; font-size: 17px; }
+    .tool-btn:hover, .icon-btn:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .tool-btn[aria-pressed="true"], .icon-btn[aria-pressed="true"] { background: var(--paper-deep); border-color: var(--accent); }
+
+    main { width: min(1240px, calc(100% - 32px)); margin: 38px auto 70px; }
+    .book {
+      position: relative;
+      overflow: hidden;
+      background: var(--paper);
+      border: 1px solid rgba(255,255,255,.9);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+    }
+    .book::before {
+      position: absolute;
+      top: 0; bottom: 0; left: 31px;
+      width: 1px;
+      content: "";
+      background: linear-gradient(transparent, rgba(233,143,157,.25) 8%, rgba(233,143,157,.25) 92%, transparent);
+    }
+    .cover {
+      position: relative;
+      display: grid;
+      min-height: 405px;
+      place-items: center;
+      overflow: hidden;
+      padding: 65px 28px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 20% 28%, rgba(255,255,255,.8) 0 3px, transparent 4px),
+        radial-gradient(circle at 79% 63%, rgba(255,255,255,.7) 0 4px, transparent 5px),
+        linear-gradient(135deg, #f8d9cf 0%, #f9e8d8 47%, #e8def3 100%);
+    }
+    .cover::before, .cover::after { position: absolute; content: ""; border: 1px solid rgba(255,255,255,.58); border-radius: 50%; }
+    .cover::before { width: 410px; height: 410px; top: -210px; right: -80px; }
+    .cover::after { width: 300px; height: 300px; bottom: -180px; left: -60px; }
+    .cover-content { position: relative; z-index: 1; max-width: 650px; }
+    .eyebrow { display: inline-flex; gap: 7px; align-items: center; padding: 6px 13px; color: #966b72; background: rgba(255,255,255,.62); border: 1px solid rgba(255,255,255,.75); border-radius: 99px; font-size: 13px; letter-spacing: .04em; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin: 18px 0 8px; color: #59464c; font-family: "Jua", sans-serif; font-size: clamp(42px, 8vw, 72px); line-height: 1.2; letter-spacing: -.04em; }
+    .subtitle { margin-bottom: 24px; color: #806b70; font-size: 17px; }
+    .cover-sticker { position: absolute; font-size: 43px; animation: float 4s ease-in-out infinite; }
+    .sticker-heart { top: 23%; left: 17%; }
+    .sticker-flower { right: 16%; bottom: 22%; animation-delay: -1.4s; }
+    .sticker-star { top: 19%; right: 24%; font-size: 26px; animation-delay: -.8s; }
+    @keyframes float { 50% { transform: translateY(-9px) rotate(5deg); } }
+    .cover-meta { display: inline-flex; gap: 8px; align-items: center; padding: 9px 16px; background: rgba(255,255,255,.55); border-radius: 14px; color: #705d63; font-size: 14px; }
+
+    .book-body { display: grid; grid-template-columns: 250px minmax(0, 1fr); }
+    aside {
+      padding: 30px 20px 30px 39px;
+      background: linear-gradient(180deg, rgba(255,241,233,.5), rgba(255,250,245,.2));
+      border-right: 1px dashed var(--line);
+    }
+    .side-label { margin: 0 0 13px; color: var(--muted); font-size: 11px; font-weight: bold; letter-spacing: .17em; }
+    .toc { display: grid; gap: 5px; }
+    .toc a { display: flex; gap: 9px; align-items: center; padding: 8px 10px; color: var(--ink); text-decoration: none; border-radius: 11px; font-size: 14px; transition: background .2s, transform .2s; }
+    .toc a:hover { background: var(--paper-deep); transform: translateX(3px); }
+    .toc .num { color: var(--accent-dark); font-family: "Jua", sans-serif; font-size: 12px; }
+    .side-note { margin-top: 25px; padding: 15px; background: var(--paper-deep); border-radius: 17px; color: #816c70; font-size: 12px; line-height: 1.7; }
+    .side-note strong { display: block; margin-bottom: 3px; color: var(--accent-dark); font-size: 13px; }
+    .reading { min-width: 0; padding: 34px clamp(23px, 5vw, 58px) 50px; }
+    .search-wrap { position: relative; margin-bottom: 28px; }
+    .search-wrap span { position: absolute; top: 9px; left: 14px; }
+    .search-wrap input { width: 100%; padding: 10px 15px 10px 42px; border: 1px solid var(--line); border-radius: 14px; outline: none; color: var(--ink); background: rgba(255,255,255,.65); }
+    .search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(233,143,157,.13); }
+    .chapter { padding: 24px 0 28px; border-bottom: 1px dashed var(--line); scroll-margin-top: 94px; }
+    .chapter:last-child { border-bottom: 0; }
+    .chapter-heading { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .chapter-icon { display: grid; flex: 0 0 43px; height: 43px; place-items: center; background: var(--paper-deep); border-radius: 15px; font-size: 21px; }
+    .chapter-heading h2 { margin: 0; font-family: "Jua", sans-serif; font-size: 23px; }
+    .chapter-heading small { display: block; margin-top: 1px; color: var(--muted); font-size: 11px; letter-spacing: .09em; }
+    .chapter p { margin-bottom: 10px; color: #716267; }
+    .definition { padding: 16px 18px; background: linear-gradient(110deg, rgba(255,241,233,.78), rgba(250,245,251,.72)); border-radius: 16px; }
+    .definition p:last-child { margin-bottom: 0; }
+    .chip-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
+    .chip { display: inline-flex; gap: 5px; align-items: center; padding: 5px 11px; border: 1px solid var(--line); border-radius: 99px; background: rgba(255,255,255,.7); color: #79666b; font-size: 13px; }
+    .quote-card { position: relative; padding: 21px 23px; background: linear-gradient(120deg, #f8e6e3, #f0eafb); border-radius: 18px; }
+    .quote-card::before { content: "“"; position: absolute; top: 0; right: 18px; color: rgba(201,110,129,.2); font-family: Georgia, serif; font-size: 70px; line-height: 1; }
+    .quote-card p { position: relative; z-index: 1; margin: 0; color: #665359; font-family: "Jua", sans-serif; font-size: 19px; line-height: 1.7; }
+    .quote-card small { display: block; margin-top: 9px; color: #987e84; font-size: 12px; }
+    .quote-actions { display: flex; justify-content: flex-end; margin-top: 12px; }
+    .mini-btn { padding: 6px 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); cursor: pointer; font-size: 12px; }
+    .mini-btn:hover { border-color: var(--accent); }
+    .progress-area { padding: 17px 18px; background: rgba(255,241,233,.56); border-radius: 16px; }
+    .progress-top { display: flex; justify-content: space-between; margin-bottom: 8px; color: #816c70; font-size: 12px; }
+    progress { width: 100%; height: 9px; overflow: hidden; border: 0; border-radius: 99px; background: #f1e4df; }
+    progress::-webkit-progress-bar { background: #f1e4df; border-radius: 99px; }
+    progress::-webkit-progress-value { background: linear-gradient(90deg, var(--accent), var(--peach)); border-radius: 99px; }
+    progress::-moz-progress-bar { background: linear-gradient(90deg, var(--accent), var(--peach)); border-radius: 99px; }
+    .empty-state { display: none; padding: 35px; text-align: center; color: var(--muted); }
+    footer { padding: 22px; color: var(--muted); background: rgba(255,241,233,.42); text-align: center; font-size: 12px; }
+    .toast { position: fixed; z-index: 50; right: 22px; bottom: 22px; padding: 11px 16px; color: #fff; background: #756068; border-radius: 13px; box-shadow: var(--shadow); opacity: 0; transform: translateY(10px); transition: .25s; pointer-events: none; font-size: 13px; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .utility-panel { margin: 0 0 24px; padding: 17px; background: rgba(255,241,233,.58); border: 1px solid var(--line); border-radius: 18px; }
+    .utility-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+    .utility-heading strong { font-family: "Jua", sans-serif; font-size: 16px; }
+    .utility-heading small { color: var(--muted); font-size: 11px; }
+    .filter-row, .action-row { display: flex; flex-wrap: wrap; gap: 7px; }
+    .filter-row { margin-bottom: 11px; }
+    .filter-btn, .action-btn {
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 99px;
+      background: var(--paper);
+      cursor: pointer;
+      font-size: 12px;
+      transition: .2s;
+    }
+    .filter-btn:hover, .action-btn:hover, .filter-btn[aria-pressed="true"] { border-color: var(--accent); background: var(--paper-deep); }
+    .catalog-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 24px; }
+    .stat-card { padding: 11px 8px; text-align: center; background: var(--paper-deep); border-radius: 14px; }
+    .stat-card strong { display: block; color: var(--accent-dark); font-family: "Jua", sans-serif; font-size: 19px; line-height: 1.4; }
+    .stat-card span { color: var(--muted); font-size: 11px; }
+    .chapter-heading { justify-content: space-between; }
+    .chapter-title { display: flex; min-width: 0; align-items: center; gap: 12px; }
+    .entry-save { flex: 0 0 auto; padding: 5px 9px; border: 1px solid var(--line); border-radius: 11px; background: var(--paper); cursor: pointer; font-size: 12px; }
+    .entry-save[aria-pressed="true"] { color: var(--accent-dark); border-color: var(--accent); background: var(--paper-deep); }
+    .entry-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 15px; }
+    .entry-card { padding: 13px 14px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.48); }
+    .entry-card strong { display: block; margin-bottom: 4px; color: var(--accent-dark); font-family: "Jua", sans-serif; font-size: 14px; }
+    .entry-card p { margin: 0; font-size: 13px; line-height: 1.7; }
+    .subheading { margin: 19px 0 8px; font-family: "Jua", sans-serif; font-size: 16px; }
+    details.glossary { margin-top: 9px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.45); }
+    details.glossary summary { padding: 10px 13px; cursor: pointer; color: var(--accent-dark); font-family: "Jua", sans-serif; font-size: 14px; }
+    details.glossary p { margin: 0; padding: 0 13px 12px; font-size: 13px; }
+    .reflection { padding: 17px; background: linear-gradient(120deg, rgba(233,143,157,.12), rgba(197,182,223,.15)); border: 1px solid var(--line); border-radius: 17px; }
+    .reflection label { display: block; margin-bottom: 8px; font-family: "Jua", sans-serif; }
+    .reflection textarea { width: 100%; min-height: 95px; resize: vertical; padding: 11px 13px; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 12px; outline: none; font: inherit; font-size: 13px; }
+    .reflection textarea:focus { border-color: var(--accent); }
+    .reflection-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 7px; color: var(--muted); font-size: 11px; }
+    .quiz-panel { margin-top: 12px; padding: 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 15px; }
+    .quiz-panel[hidden] { display: none; }
+    .quiz-question { margin: 0 0 9px; font-family: "Jua", sans-serif; font-size: 14px; }
+    .quiz-options { display: flex; flex-wrap: wrap; gap: 7px; }
+    .quiz-feedback { min-height: 24px; margin: 8px 0 0; color: var(--accent-dark); font-size: 12px; }
+    body.dark .quiz-panel { background: #302e38; }
+    .reading-actions { position: fixed; right: 18px; bottom: 78px; z-index: 15; display: grid; gap: 8px; }
+    .reading-actions button { width: 43px; height: 43px; border: 1px solid var(--line); border-radius: 15px; background: var(--paper); box-shadow: var(--shadow); cursor: pointer; font-size: 17px; }
+    .reading-actions button:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .chapter[hidden] { display: none !important; }
+    .random-highlight { animation: highlight-entry 1.5s ease; }
+    @keyframes highlight-entry { 50% { background: rgba(233,143,157,.12); box-shadow: 0 0 0 12px rgba(233,143,157,.12); } }
+    @media print {
+      body { color: #222; background: #fff; font-size: 11pt; }
+      .toolbar, aside, .search-wrap, .utility-panel, .reading-actions, .toast, .entry-save, .quote-actions, .reflection-meta { display: none !important; }
+      main { width: 100%; margin: 0; }
+      .book { overflow: visible; border: 0; box-shadow: none; }
+      .cover { min-height: 220px; }
+      .book-body { display: block; }
+      .reading { padding: 20px; }
+      .chapter, .entry-card, .definition { break-inside: avoid; }
+      .chapter[hidden] { display: block !important; }
+    }
+    body.dark .utility-panel { background: rgba(56,50,63,.58); }
+    body.dark .entry-card, body.dark details.glossary { background: rgba(41,40,50,.6); }
+    body.dark .entry-card p, body.dark details.glossary p { color: #e2d5d8; }
+    body.dark .reflection { background: linear-gradient(120deg, rgba(78,51,66,.45), rgba(59,51,75,.5)); }
+
+    body.dark {
+      color-scheme: dark;
+      --paper: #292832;
+      --paper-deep: #38323f;
+      --ink: #f1e8e8;
+      --muted: #b6a8ad;
+      --line: #49404a;
+      --shadow: 0 20px 60px rgba(0,0,0,.25);
+      background: radial-gradient(ellipse at 12% 10%, #423542, transparent 30rem), #201f27;
+    }
+    body.dark .toolbar { background: rgba(35,33,42,.86); border-color: var(--line); }
+    body.dark .cover { background: linear-gradient(135deg, #51404b, #554a57 50%, #3b3d51); }
+    body.dark h1, body.dark .subtitle, body.dark .cover-meta, body.dark .eyebrow { color: #f6e8e8; }
+    body.dark .eyebrow, body.dark .cover-meta { background: rgba(30,28,37,.45); }
+    body.dark .chapter p, body.dark .definition, body.dark .quote-card p { color: #e2d5d8; }
+    body.dark .definition { background: linear-gradient(110deg, #39313a, #34313e); }
+    body.dark .quote-card { background: linear-gradient(120deg, #40323d, #353144); }
+    body.dark .quote-card small { color: #c1aab2; }
+    body.dark .search-wrap input { color: var(--ink); background: #302e38; }
+    body.dark .chip { color: #e4d7da; background: #302e38; }
+    body.dark .progress-area, body.dark footer { background: rgba(56,50,63,.58); }
+    body.dark .side-note { color: #d3c3c6; }
+    body.dark .toc a { color: var(--ink); }
+    body.dark .cover::before, body.dark .cover::after { border-color: rgba(255,255,255,.15); }
+
+    body.theme-lavender { --paper-deep: #f0eafb; --accent: #a78bc9; --accent-dark: #8268a8; --line: #e8def1; }
+    body.theme-mint { --paper-deep: #e9f4ed; --accent: #79b99a; --accent-dark: #528e72; --line: #dcebe1; }
+    body.dark.theme-lavender { --paper-deep: #393344; --accent: #b89cdb; --accent-dark: #c3a9e3; --line: #49404a; }
+    body.dark.theme-mint { --paper-deep: #303d38; --accent: #8bc6a7; --accent-dark: #9bd4b6; --line: #414c45; }
+    body.focus-mode aside, body.focus-mode .toolbar .brand, body.focus-mode .search-wrap { display: none; }
+    body.focus-mode .book-body { grid-template-columns: 1fr; }
+    body.focus-mode .reading { max-width: 780px; margin: auto; }
+
+    @media (max-width: 760px) {
+      main { width: min(100% - 18px, 650px); margin: 16px auto 35px; }
+      .toolbar { padding: 9px 10px; }
+      .toolbar-inner { gap: 8px; }
+      .brand { font-size: 16px; }
+      .brand-mark { width: 30px; height: 30px; }
+      .tools { gap: 5px; }
+      .tool-btn { padding: 7px 8px; font-size: 12px; }
+      .icon-btn { width: 35px; height: 35px; }
+      .cover { min-height: 350px; padding: 50px 18px; }
+      .sticker-heart { left: 8%; }
+      .sticker-flower { right: 7%; }
+      .book-body { grid-template-columns: 1fr; }
+      aside { padding: 20px 24px; border-right: 0; border-bottom: 1px dashed var(--line); }
+      .toc { display: flex; overflow-x: auto; padding-bottom: 3px; }
+      .toc a { flex: 0 0 auto; }
+      .side-note { display: none; }
+      .reading { padding: 23px 24px 35px; }
+      .book::before { left: 12px; }
+      .entry-grid { grid-template-columns: 1fr; }
+      .catalog-summary { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 440px) {
+      .brand-name { display: none; }
+      .tool-btn { padding: 7px; }
+      .tool-btn .long { display: none; }
+      .cover { min-height: 325px; }
+      .cover-sticker { font-size: 31px; }
+      .chapter-heading h2 { font-size: 21px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <span class="decor one" aria-hidden="true">✦</span>
+  <span class="decor two" aria-hidden="true">♡</span>
+  <span class="decor three" aria-hidden="true">✿</span>
+
+  <header class="toolbar">
+    <div class="toolbar-inner">
+      <div class="brand"><span class="brand-mark">📖</span><span class="brand-name">민주의 작은 사전</span></div>
+      <div class="tools" aria-label="페이지 꾸미기 도구">
+        <button class="tool-btn" id="themeBtn" type="button" aria-label="색상 테마 바꾸기">🎨 <span class="long">테마</span></button>
+        <button class="tool-btn" id="darkBtn" type="button" aria-pressed="false">🌙 <span class="long">다크</span></button>
+        <button class="tool-btn" id="focusBtn" type="button" aria-pressed="false">🪄 <span class="long">집중 모드</span></button>
+        <button class="icon-btn" id="fontBtn" type="button" aria-label="글자 크기 바꾸기">Aa</button>
+        <button class="icon-btn" id="bookmarkBtn" type="button" aria-label="책갈피 저장" aria-pressed="false">♡</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <article class="book">
+      <section class="cover" id="top" aria-labelledby="cover-title">
+        <span class="cover-sticker sticker-heart" aria-hidden="true">💗</span>
+        <span class="cover-sticker sticker-flower" aria-hidden="true">🌷</span>
+        <span class="cover-sticker sticker-star" aria-hidden="true">✨</span>
+        <div class="cover-content">
+          <span class="eyebrow">A LITTLE BOOK ABOUT ME · 나를 소개합니다</span>
+          <h1 id="cover-title">안녕, 나는<br>임민주야!</h1>
+          <p class="subtitle">좋아하는 것과 꿈을 한 장씩 모아 만든 작은 사전</p>
+          <div class="cover-meta"><span>🎓 경영정보학과</span><span>·</span><span>🌸 봄과 가을을 좋아해요</span></div>
+        </div>
+      </section>
+
+      <div class="book-body">
+        <aside aria-label="목차">
+          <p class="side-label">CONTENTS · 차례</p>
+          <nav class="toc">
+            <a href="#about"><span class="num">01</span> 첫인사</a>
+            <a href="#interests"><span class="num">02</span> 관심 분야</a>
+            <a href="#favorites"><span class="num">03</span> 취향 사전</a>
+            <a href="#personality"><span class="num">04</span> 나의 성격</a>
+            <a href="#strengths"><span class="num">05</span> 나의 강점</a>
+            <a href="#dream"><span class="num">06</span> 나의 꿈</a>
+          </nav>
+          <div class="side-note"><strong>📌 책갈피 팁</strong>하트를 누르면 이 페이지를 기억해둘게요. 테마와 글자 크기도 취향대로 바꿔보세요!</div>
+        </aside>
+
+        <div class="reading">
+          <label class="search-wrap">
+            <span aria-hidden="true">🔎</span>
+            <input id="searchInput" type="search" placeholder="궁금한 단어를 찾아보세요 (예: 초밥, 성장)" aria-label="소개 내용 검색">
+          </label>
+
+          <div class="catalog-summary" aria-label="민주 사전 요약">
+            <div class="stat-card"><strong>7</strong><span>관심 분야</span></div>
+            <div class="stat-card"><strong>11</strong><span>좋아하는 음식</span></div>
+            <div class="stat-card"><strong>2</strong><span>좋아하는 계절</span></div>
+            <div class="stat-card"><strong>∞</strong><span>성장 가능성</span></div>
+          </div>
+
+          <section class="utility-panel" aria-label="백과사전 탐색 도구">
+            <div class="utility-heading"><strong>🧭 사전 탐색실</strong><small>찾고 싶은 항목을 골라보세요</small></div>
+            <div class="filter-row" role="group" aria-label="항목 분류 필터">
+              <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">전체 보기</button>
+              <button class="filter-btn" type="button" data-filter="profile">👤 프로필</button>
+              <button class="filter-btn" type="button" data-filter="interest">💡 관심 분야</button>
+              <button class="filter-btn" type="button" data-filter="taste">🍰 취향</button>
+              <button class="filter-btn" type="button" data-filter="growth">🌱 성장</button>
+            </div>
+            <div class="action-row">
+              <button class="action-btn" id="randomEntryBtn" type="button">🎲 랜덤 항목</button>
+              <button class="action-btn" id="copyIntroBtn" type="button">📋 소개글 복사</button>
+              <button class="action-btn" id="printBtn" type="button">🖨️ 인쇄 / PDF</button>
+              <button class="action-btn" id="savedFilterBtn" type="button" aria-pressed="false">⭐ 저장 항목만</button>
+              <button class="action-btn" id="quizToggleBtn" type="button" aria-expanded="false">🧠 민주 퀴즈</button>
+            </div>
+            <div class="quiz-panel" id="quizPanel" hidden>
+              <p class="quiz-question" id="quizQuestion"></p>
+              <div class="quiz-options" id="quizOptions"></div>
+              <p class="quiz-feedback" id="quizFeedback" aria-live="polite"></p>
+              <button class="mini-btn" id="nextQuizBtn" type="button" hidden>다음 문제 →</button>
+            </div>
+          </section>
+
+          <section class="chapter searchable" id="about" data-category="profile">
+            <div class="chapter-heading"><div class="chapter-title"><span class="chapter-icon">👋</span><div><h2>첫인사</h2><small>HELLO, THIS IS ME</small></div></div></div>
+            <div class="definition">
+              <p><strong>임민주</strong> <span class="chip">명사 · 사람</span></p>
+              <p>경영정보학과에 속한 대학생으로, 경영과 정보기술이 만나는 지점에서 여러 분야를 탐색하고 있어요. 마케팅·웹·디자인·기획부터 영업과 회계까지 폭넓은 호기심을 가지고 있답니다.</p>
+              <p>이 사전은 민주를 이루는 관심사와 취향, 강점과 목표를 주제별로 살펴보는 안내서예요. 한 가지 모습으로만 정의하기보다, 경험을 쌓으며 계속 자라나는 사람으로 소개합니다. 🌼</p>
+            </div>
+            <h3 class="subheading">프로필 한눈에 보기</h3>
+            <div class="entry-grid">
+              <div class="entry-card"><strong>이름</strong><p>임민주</p></div>
+              <div class="entry-card"><strong>전공</strong><p>경영정보학과</p></div>
+              <div class="entry-card"><strong>키워드</strong><p>호기심 · 배려 · 체계적인 실행 · 꾸준한 성장</p></div>
+              <div class="entry-card"><strong>좋아하는 계절</strong><p>따뜻한 봄과 선선한 가을</p></div>
+            </div>
+          </section>
+
+          <section class="chapter searchable" id="interests" data-category="interest">
+            <div class="chapter-heading"><div class="chapter-title"><span class="chapter-icon">💡</span><div><h2>관심 분야 백과</h2><small>THINGS THAT SPARK MY CURIOSITY</small></div></div></div>
+            <p>다양한 분야를 넘나들며 아이디어를 현실로 만드는 일에 관심이 있어요. 각각의 분야가 어떤 방식으로 연결되는지 알아가고, 제게 맞는 역량을 차근차근 쌓아가고 싶습니다.</p>
+            <div class="chip-list">
+              <span class="chip">📣 마케팅</span><span class="chip">💻 웹 개발</span><span class="chip">🎨 웹 디자인</span>
+              <span class="chip">🖍️ 디자인</span><span class="chip">📝 기획</span><span class="chip">🤝 영업</span><span class="chip">🧾 회계</span>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-card"><strong>📣 마케팅</strong><p>사람과 시장을 이해하고, 매력적인 가치를 알리는 방법을 탐구하는 관심 분야예요. 패션·뷰티 트렌드 탐색과도 연결되어 있어요.</p></div>
+              <div class="entry-card"><strong>💻 웹 개발</strong><p>아이디어를 실제로 작동하는 웹 경험으로 구현하는 분야예요. 웹 디자인과 함께 생각하며 디지털 결과물을 만드는 데 관심이 있어요.</p></div>
+              <div class="entry-card"><strong>🎨 웹 디자인 · 디자인</strong><p>정보를 보기 좋고 이해하기 쉽게 구성하는 일에 끌려요. 색감, 글꼴, 화면 구성처럼 시각적 표현과 사용 경험을 함께 살펴봅니다.</p></div>
+              <div class="entry-card"><strong>📝 기획</strong><p>목표를 정하고 필요한 과정을 구조화해 실행으로 옮기는 분야예요. 주어진 일을 체계적으로 수행하려는 강점과 맞닿아 있어요.</p></div>
+              <div class="entry-card"><strong>🤝 영업</strong><p>상대의 필요를 이해하고 적합한 해결책과 가치를 전달하는 일에 관심이 있어요. 배려심과 소통을 바탕으로 관계를 만들어가는 분야입니다.</p></div>
+              <div class="entry-card"><strong>🧾 회계</strong><p>숫자와 기준을 바탕으로 조직의 활동을 체계적으로 살펴보는 분야예요. 경영을 이해하는 데 필요한 기초적인 관점과 연결됩니다.</p></div>
+            </div>
+            <details class="glossary"><summary>🔎 관심 분야 연결 지도 펼치기</summary><p><strong>사람 이해</strong>(마케팅·영업) → <strong>아이디어 구체화</strong>(기획·디자인) → <strong>디지털 구현</strong>(웹 디자인·개발) → <strong>운영과 점검</strong>(회계). 여러 관심 분야를 함께 탐색하며 나만의 진로 방향을 찾아갈 수 있어요.</p></details>
+          </section>
+
+          <section class="chapter searchable" id="favorites" data-category="taste">
+            <div class="chapter-heading"><div class="chapter-title"><span class="chapter-icon">🧸</span><div><h2>취향 사전</h2><small>MY LITTLE FAVORITES</small></div></div></div>
+            <p><strong>쉬는 날엔</strong> 영화·드라마·애니메이션을 보며 이야기와 장면을 즐기고, K-pop이나 팝송을 들으며 기분을 환기해요. 쇼핑으로 마음에 드는 스타일을 둘러보거나 디저트 카페에서 달콤한 시간을 보내는 것도 좋아합니다.</p>
+            <div class="entry-grid">
+              <div class="entry-card"><strong>🎬 화면 속 이야기</strong><p>영화, 드라마, 애니메이션을 즐겨 봐요. 서로 다른 장르와 세계관을 접하며 여가 시간을 보내는 취향이에요.</p></div>
+              <div class="entry-card"><strong>🎧 플레이리스트</strong><p>K-pop과 팝송을 좋아해요. 익숙한 노래부터 새로운 곡까지 음악을 듣는 시간을 즐깁니다.</p></div>
+              <div class="entry-card"><strong>🛍️ 스타일 탐색</strong><p>쇼핑과 옷 코디에 관심이 있어요. 여러 스타일을 살펴보고 패션·뷰티의 최신 트렌드를 찾아보는 것을 좋아합니다.</p></div>
+              <div class="entry-card"><strong>☕ 카페 나들이</strong><p>디저트 카페와 맛집을 찾아가는 일을 좋아해요. 새로운 메뉴와 공간을 발견하는 것이 작은 즐거움이에요.</p></div>
+            </div>
+            <h3 class="subheading">좋아하는 음식 도감</h3>
+            <p><strong>좋아하는 음식</strong>은 생각만 해도 행복해지는 메뉴들로 가득!</p>
+            <div class="chip-list">
+              <span class="chip">🌶️ 마라탕</span><span class="chip">🍜 짬뽕</span><span class="chip">🍣 초밥</span><span class="chip">🍥 라멘</span>
+              <span class="chip">🥢 떡볶이</span><span class="chip">🍝 파스타</span><span class="chip">🍳 오므라이스</span>
+              <span class="chip">🍱 돈가스</span><span class="chip">🍔 햄버거</span><span class="chip">🐟 연어</span><span class="chip">🥪 샌드위치</span>
+            </div>
+            <details class="glossary"><summary>🍽️ 메뉴 취향 펼쳐보기</summary><p><strong>얼큰하고 매콤한 메뉴</strong>: 마라탕, 짬뽕, 떡볶이 · <strong>면 요리</strong>: 라멘, 파스타 · <strong>밥과 든든한 한 끼</strong>: 오므라이스, 돈가스 · <strong>가볍게 즐기는 메뉴</strong>: 초밥, 연어, 샌드위치, 햄버거. 취향 목록을 상황에 따라 골라보기 좋게 나눠봤어요.</p></details>
+            <p style="margin-top:16px"><strong>계절 취향</strong> <span class="chip">🌷 봄</span> <span class="chip">🍂 가을</span></p>
+            <h3 class="subheading">요즘의 관심 레이더</h3>
+            <div class="entry-grid">
+              <div class="entry-card"><strong>👗 옷 코디</strong><p>다양한 옷차림을 살펴보고 내 취향에 맞는 스타일을 찾는 관심사예요.</p></div>
+              <div class="entry-card"><strong>📍 맛집·카페 탐방</strong><p>새로운 장소와 메뉴를 발견하며 맛있는 경험을 쌓고 싶어요.</p></div>
+              <div class="entry-card"><strong>📊 마케팅</strong><p>관심 분야를 넓혀가며 사람과 브랜드를 이어주는 방법을 알아가고 있어요.</p></div>
+              <div class="entry-card"><strong>💄 패션·뷰티 트렌드</strong><p>최신 흐름을 살펴보며 달라지는 스타일과 취향을 탐색하는 것을 좋아합니다.</p></div>
+            </div>
+          </section>
+
+          <section class="chapter searchable" id="personality" data-category="profile">
+            <div class="chapter-heading"><div class="chapter-title"><span class="chapter-icon">🐣</span><div><h2>성격 관찰 노트</h2><small>THE MORE YOU KNOW ME</small></div></div></div>
+            <div class="definition">
+              <p>처음에는 차분한 편이지만, 친해지면 활발하고 장난기도 많아져요. 관계와 분위기에 따라 조금씩 더 편안한 모습을 보여주는 사람이랍니다. 😊</p>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-card"><strong>첫 장면 · 차분함</strong><p>처음 만났을 때는 차분한 분위기로 시작해요. 천천히 주변과 상황을 살피는 모습이 먼저 보일 수 있어요.</p></div>
+              <div class="entry-card"><strong>친해진 뒤 · 활발함</strong><p>서로 편해지면 활발하고 장난기 많은 면도 나타나요. 알아갈수록 다양한 매력을 발견할 수 있습니다.</p></div>
+            </div>
+          </section>
+
+          <section class="chapter searchable" id="strengths" data-category="growth">
+            <div class="chapter-heading"><div class="chapter-title"><span class="chapter-icon">🌱</span><div><h2>강점과 실행 방식</h2><small>WHAT I BRING TO THE TABLE</small></div></div></div>
+            <p>배려심을 바탕으로 주변을 살피고, 맡은 일은 체계적으로 해내려고 노력해요. 문제를 만나면 해결 방법을 찾고, 더 나은 결과를 위해 꾸준히 개선합니다.</p>
+            <div class="chip-list">
+              <span class="chip">💗 배려심</span><span class="chip">📈 성장 욕구</span><span class="chip">🧩 문제 해결 능력</span>
+              <span class="chip">🚀 도전 정신</span><span class="chip">🗂️ 체계적인 실행력</span><span class="chip">✨ 지속적인 개선</span>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-card"><strong>💗 배려심</strong><p>주변 사람과 상황을 살피며 함께하는 과정에서 조화를 생각하는 태도예요.</p></div>
+              <div class="entry-card"><strong>📈 성장 욕구</strong><p>현재에 머무르기보다 배우고 발전하며 더 나은 사람이 되고 싶어 해요.</p></div>
+              <div class="entry-card"><strong>🧩 문제 해결</strong><p>문제를 마주했을 때 해결 방법을 찾아보고, 가능한 방향으로 풀어가려는 강점입니다.</p></div>
+              <div class="entry-card"><strong>🚀 도전 정신</strong><p>새로운 경험과 기회에 도전하며 자신의 가능성을 넓히고 싶어 해요.</p></div>
+              <div class="entry-card"><strong>🗂️ 체계적인 수행</strong><p>주어진 일을 순서와 구조에 맞게 진행해 맡은 일을 차근차근 완성합니다.</p></div>
+              <div class="entry-card"><strong>✨ 지속적인 개선</strong><p>결과를 한 번으로 끝내지 않고 더 나은 방향을 고민하며 꾸준히 보완합니다.</p></div>
+            </div>
+            <details class="glossary"><summary>🪜 나의 일하는 흐름 펼쳐보기</summary><p><strong>이해하기</strong> → 해야 할 일을 파악하고 주변을 살펴요. <strong>정리하기</strong> → 순서를 세우고 체계적으로 수행해요. <strong>해결하기</strong> → 어려움이 생기면 해결 방법을 찾아요. <strong>개선하기</strong> → 더 나은 결과를 위해 돌아보고 보완해요.</p></details>
+          </section>
+
+          <section class="chapter searchable" id="dream" data-category="growth">
+            <div class="chapter-heading"><div class="chapter-title"><span class="chapter-icon">🌟</span><div><h2>꿈과 성장 로드맵</h2><small>A FUTURE I WANT TO CREATE</small></div></div></div>
+            <div class="quote-card">
+              <p id="dreamQuote">꾸준한 자기계발과 다양한 경험으로 전문성과 경쟁력을 갖춘 사람으로 성장하고 싶어요.</p>
+              <small>— 민주가 그려가는 내일</small>
+            </div>
+            <p style="margin-top:14px">특히 관심 있는 분야에서 나만의 역량을 쌓아 원하는 진로를 이루고, 스스로 만족할 수 있는 삶을 만들어가고 싶어요. 오늘의 작은 도전이 내일의 저를 만든다고 믿어요. 🌼</p>
+            <div class="entry-grid">
+              <div class="entry-card"><strong>1단계 · 꾸준히 배우기</strong><p>자기계발을 이어가며 관심 분야의 기초와 새로운 지식을 차근차근 쌓아요.</p></div>
+              <div class="entry-card"><strong>2단계 · 다양한 경험</strong><p>여러 경험에 도전하며 내가 잘하는 일과 더 키우고 싶은 역량을 발견해요.</p></div>
+              <div class="entry-card"><strong>3단계 · 나만의 전문성</strong><p>관심 있는 분야에 집중해 나만의 역량과 경쟁력을 갖춰가요.</p></div>
+              <div class="entry-card"><strong>4단계 · 나다운 삶</strong><p>원하는 진로를 이루고 스스로 만족할 수 있는 삶을 만들어가는 것이 목표예요.</p></div>
+            </div>
+            <div class="quote-actions"><button class="mini-btn" id="quoteBtn" type="button">💌 문장 바꾸기</button></div>
+          </section>
+
+          <section class="chapter" id="memoSection" aria-label="나만의 메모">
+            <div class="chapter-heading"><div class="chapter-title"><span class="chapter-icon">📝</span><div><h2>나만의 성장 메모</h2><small>A NOTE TO MY FUTURE SELF</small></div></div></div>
+            <div class="reflection">
+              <label for="reflectionNote">앞으로 더 알아가고 싶은 나의 모습이나 목표를 적어보세요.</label>
+              <textarea id="reflectionNote" placeholder="예: 이번 달에는 관심 있는 분야를 하나 골라 작은 경험을 해보기 ✨"></textarea>
+              <div class="reflection-meta"><span id="memoStatus">이 메모는 이 브라우저에만 저장돼요.</span><button class="mini-btn" id="clearMemoBtn" type="button">메모 지우기</button></div>
+            </div>
+          </section>
+
+          <section class="chapter" aria-label="읽기 진행 상황">
+            <div class="progress-area">
+              <div class="progress-top"><span>📚 나를 알아가는 중</span><span id="progressLabel">0% 읽음</span></div>
+              <progress id="readingProgress" max="100" value="0">0%</progress>
+            </div>
+          </section>
+          <div class="empty-state" id="emptyState">앗, 찾는 단어가 없어요. 다른 단어로 검색해볼까요? 🌷</div>
+        </div>
+      </div>
+      <footer>민주의 작은 사전 · 나만의 속도로, 나답게 성장하기 <span aria-hidden="true">♡</span></footer>
+    </article>
+  </main>
+  <div class="reading-actions" aria-label="빠른 이동">
+    <button id="backTopBtn" type="button" aria-label="맨 위로 이동" title="맨 위로">↑</button>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      const body = document.body;
+      const toast = document.getElementById("toast");
+      const themeNames = ["로지 핑크", "라벤더", "민트"];
+      let themeIndex = 0;
+      let fontIndex = 0;
+      let toastTimer;
+      let activeCategory = "all";
+      let savedOnly = false;
+      let savedEntries = [];
+
+      try {
+        const storedEntries = JSON.parse(localStorage.getItem("minju-saved-entries") || "[]");
+        if (Array.isArray(storedEntries)) savedEntries = storedEntries.filter(function (id) {
+          return typeof id === "string" && document.getElementById(id);
+        });
+      } catch (error) {
+        showToast("저장한 항목을 불러오지 못했어요.");
+      }
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(function () { toast.classList.remove("show"); }, 2100);
+      }
+
+      document.getElementById("darkBtn").addEventListener("click", function () {
+        const enabled = body.classList.toggle("dark");
+        this.setAttribute("aria-pressed", String(enabled));
+        this.innerHTML = enabled ? "☀️ <span class=\"long\">라이트</span>" : "🌙 <span class=\"long\">다크</span>";
+        showToast(enabled ? "포근한 밤 모드로 바꿨어요 🌙" : "밝은 낮 모드로 돌아왔어요 ☀️");
+      });
+
+      document.getElementById("themeBtn").addEventListener("click", function () {
+        body.classList.remove("theme-lavender", "theme-mint");
+        themeIndex = (themeIndex + 1) % themeNames.length;
+        if (themeIndex === 1) body.classList.add("theme-lavender");
+        if (themeIndex === 2) body.classList.add("theme-mint");
+        showToast(themeNames[themeIndex] + " 테마로 꾸몄어요 🎨");
+      });
+
+      document.getElementById("focusBtn").addEventListener("click", function () {
+        const enabled = body.classList.toggle("focus-mode");
+        this.setAttribute("aria-pressed", String(enabled));
+        showToast(enabled ? "읽기에 집중할 수 있게 정리했어요 🪄" : "목차와 도구를 다시 펼쳤어요 📖");
+      });
+
+      document.getElementById("fontBtn").addEventListener("click", function () {
+        const sizes = ["1", "1.1", "1.2"];
+        fontIndex = (fontIndex + 1) % sizes.length;
+        body.style.setProperty("--font-scale", sizes[fontIndex]);
+        showToast(["기본 글자 크기", "조금 크게", "더 크게"][fontIndex] + " 설정");
+      });
+
+      const bookmarkButton = document.getElementById("bookmarkBtn");
+      try {
+        const saved = localStorage.getItem("minju-bookmark") === "true";
+        bookmarkButton.setAttribute("aria-pressed", String(saved));
+        bookmarkButton.textContent = saved ? "♥" : "♡";
+      } catch (error) {
+        showToast("브라우저에서 책갈피 저장을 사용할 수 없어요.");
+      }
+      bookmarkButton.addEventListener("click", function () {
+        const saved = this.getAttribute("aria-pressed") !== "true";
+        this.setAttribute("aria-pressed", String(saved));
+        this.textContent = saved ? "♥" : "♡";
+        try {
+          localStorage.setItem("minju-bookmark", String(saved));
+        } catch (error) {
+          showToast("책갈피를 저장하지 못했어요. 브라우저 설정을 확인해주세요.");
+          return;
+        }
+        showToast(saved ? "책갈피에 담아뒀어요 💗" : "책갈피를 해제했어요");
+      });
+
+      const searchInput = document.getElementById("searchInput");
+      const searchableSections = Array.from(document.querySelectorAll(".searchable"));
+      const emptyState = document.getElementById("emptyState");
+      const filterButtons = Array.from(document.querySelectorAll(".filter-btn"));
+      const savedFilterButton = document.getElementById("savedFilterBtn");
+
+      searchableSections.forEach(function (section) {
+        const button = document.createElement("button");
+        button.className = "entry-save";
+        button.type = "button";
+        button.setAttribute("aria-label", "항목 저장");
+        section.querySelector(".chapter-heading").appendChild(button);
+        button.addEventListener("click", function () {
+          const index = savedEntries.indexOf(section.id);
+          if (index === -1) savedEntries.push(section.id);
+          else savedEntries.splice(index, 1);
+          try {
+            localStorage.setItem("minju-saved-entries", JSON.stringify(savedEntries));
+          } catch (error) {
+            showToast("항목을 저장하지 못했어요. 브라우저 저장 공간을 확인해주세요.");
+            return;
+          }
+          updateSavedButtons();
+          renderEntries();
+          showToast(index === -1 ? "이 항목을 저장했어요 ⭐" : "저장한 항목에서 뺐어요");
+        });
+      });
+
+      function updateSavedButtons() {
+        searchableSections.forEach(function (section) {
+          const button = section.querySelector(".entry-save");
+          const isSaved = savedEntries.indexOf(section.id) !== -1;
+          button.textContent = isSaved ? "★ 저장됨" : "☆ 저장";
+          button.setAttribute("aria-pressed", String(isSaved));
+          button.setAttribute("aria-label", isSaved ? "저장 해제" : "항목 저장");
+        });
+      }
+
+      function renderEntries() {
+        const query = searchInput.value.trim().toLocaleLowerCase("ko");
+        let visibleCount = 0;
+        searchableSections.forEach(function (section) {
+          const matchesSearch = !query || section.textContent.toLocaleLowerCase("ko").includes(query);
+          const matchesCategory = activeCategory === "all" || section.dataset.category === activeCategory;
+          const matchesSaved = !savedOnly || savedEntries.indexOf(section.id) !== -1;
+          const matches = matchesSearch && matchesCategory && matchesSaved;
+          section.hidden = !matches;
+          if (matches) visibleCount++;
+        });
+        emptyState.style.display = visibleCount === 0 ? "block" : "none";
+      }
+      updateSavedButtons();
+      searchInput.addEventListener("input", renderEntries);
+
+      filterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          activeCategory = this.dataset.filter;
+          filterButtons.forEach(function (item) {
+            item.setAttribute("aria-pressed", String(item === button));
+          });
+          renderEntries();
+        });
+      });
+      savedFilterButton.addEventListener("click", function () {
+        savedOnly = !savedOnly;
+        this.setAttribute("aria-pressed", String(savedOnly));
+        renderEntries();
+        showToast(savedOnly ? "저장한 항목만 모아볼게요 ⭐" : "전체 항목을 다시 보여드릴게요 📚");
+      });
+
+      const quizQuestions = [
+        { question: "민주의 전공은 무엇일까요?", options: ["경영정보학과", "시각디자인학과", "음악학과"], answer: 0 },
+        { question: "민주가 좋아하는 계절 조합은?", options: ["여름과 겨울", "봄과 가을", "겨울과 봄"], answer: 1 },
+        { question: "민주가 즐겨 듣는 음악은?", options: ["클래식만", "재즈와 국악", "K-pop과 팝송"], answer: 2 }
+      ];
+      let quizIndex = 0;
+      let quizScore = 0;
+      let quizAnswered = false;
+      const quizPanel = document.getElementById("quizPanel");
+      const quizToggleButton = document.getElementById("quizToggleBtn");
+      const nextQuizButton = document.getElementById("nextQuizBtn");
+
+      function showQuizQuestion() {
+        const item = quizQuestions[quizIndex];
+        document.getElementById("quizQuestion").textContent = (quizIndex + 1) + " / " + quizQuestions.length + " · " + item.question;
+        document.getElementById("quizFeedback").textContent = "";
+        nextQuizButton.hidden = true;
+        nextQuizButton.textContent = quizIndex === quizQuestions.length - 1 ? "결과 보기 →" : "다음 문제 →";
+        const options = document.getElementById("quizOptions");
+        options.replaceChildren();
+        item.options.forEach(function (option, index) {
+          const button = document.createElement("button");
+          button.className = "mini-btn";
+          button.type = "button";
+          button.textContent = option;
+          button.addEventListener("click", function () {
+            if (quizAnswered) return;
+            quizAnswered = true;
+            const correct = index === item.answer;
+            if (correct) quizScore++;
+            Array.from(options.children).forEach(function (choice, choiceIndex) {
+              choice.disabled = true;
+              if (choiceIndex === item.answer) choice.setAttribute("aria-label", choice.textContent + " · 정답");
+            });
+            document.getElementById("quizFeedback").textContent = correct ? "정답이에요! 민주에 대해 잘 알고 있네요 💗" : "아쉽지만 괜찮아요! 정답은 " + item.options[item.answer] + " ✨";
+            nextQuizButton.hidden = false;
+          });
+          options.appendChild(button);
+        });
+      }
+
+      quizToggleButton.addEventListener("click", function () {
+        const isOpen = quizPanel.hidden;
+        quizPanel.hidden = !isOpen;
+        this.setAttribute("aria-expanded", String(isOpen));
+        if (isOpen) {
+          quizIndex = 0;
+          quizScore = 0;
+          quizAnswered = false;
+          showQuizQuestion();
+        }
+      });
+      nextQuizButton.addEventListener("click", function () {
+        if (!quizAnswered) return;
+        if (quizIndex === quizQuestions.length - 1) {
+          showToast("퀴즈 완료! " + quizScore + " / " + quizQuestions.length + "개 정답 🎉");
+          quizIndex = 0;
+          quizScore = 0;
+        } else {
+          quizIndex++;
+        }
+        quizAnswered = false;
+        showQuizQuestion();
+      });
+
+      document.getElementById("randomEntryBtn").addEventListener("click", function () {
+        renderEntries();
+        const visible = searchableSections.filter(function (section) { return !section.hidden; });
+        if (!visible.length) {
+          showToast("지금 조건에 맞는 항목이 없어요. 필터를 바꿔보세요.");
+          return;
+        }
+        const chosen = visible[Math.floor(Math.random() * visible.length)];
+        chosen.scrollIntoView({ behavior: "smooth", block: "start" });
+        chosen.classList.add("random-highlight");
+        window.setTimeout(function () { chosen.classList.remove("random-highlight"); }, 1500);
+        showToast("오늘의 랜덤 항목: " + chosen.querySelector("h2").textContent + " 🎲");
+      });
+
+      document.getElementById("copyIntroBtn").addEventListener("click", function () {
+        const intro = "안녕하세요, 경영정보학과 임민주입니다. 마케팅, 웹 개발과 디자인, 기획, 영업, 회계 등 다양한 분야에 관심이 있습니다. 배려심과 문제 해결 능력, 꾸준히 성장하려는 자세를 바탕으로 관심 분야의 전문성을 쌓아 원하는 진로를 이루고 싶습니다.";
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(intro).then(function () {
+            showToast("소개글을 클립보드에 복사했어요 📋");
+          }).catch(function () {
+            showToast("복사할 수 없어요. 브라우저 권한을 확인해주세요.");
+          });
+        } else {
+          const temporaryInput = document.createElement("textarea");
+          temporaryInput.value = intro;
+          temporaryInput.style.position = "fixed";
+          temporaryInput.style.opacity = "0";
+          body.appendChild(temporaryInput);
+          temporaryInput.select();
+          const copied = document.execCommand("copy");
+          temporaryInput.remove();
+          showToast(copied ? "소개글을 클립보드에 복사했어요 📋" : "소개글 복사에 실패했어요.");
+        }
+      });
+      document.getElementById("printBtn").addEventListener("click", function () { window.print(); });
+      document.getElementById("backTopBtn").addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      const reflectionNote = document.getElementById("reflectionNote");
+      const memoStatus = document.getElementById("memoStatus");
+      try {
+        reflectionNote.value = localStorage.getItem("minju-growth-note") || "";
+      } catch (error) {
+        memoStatus.textContent = "브라우저에서 메모 저장을 사용할 수 없어요.";
+      }
+      reflectionNote.addEventListener("input", function () {
+        try {
+          localStorage.setItem("minju-growth-note", this.value);
+          memoStatus.textContent = "자동 저장됨 · 이 브라우저에서만 볼 수 있어요.";
+        } catch (error) {
+          memoStatus.textContent = "저장하지 못했어요. 브라우저 저장 공간을 확인해주세요.";
+        }
+      });
+      document.getElementById("clearMemoBtn").addEventListener("click", function () {
+        reflectionNote.value = "";
+        try {
+          localStorage.removeItem("minju-growth-note");
+          memoStatus.textContent = "메모를 지웠어요. 이 브라우저에만 저장돼요.";
+        } catch (error) {
+          memoStatus.textContent = "메모를 지우지 못했어요. 브라우저 설정을 확인해주세요.";
+        }
+      });
+
+      const quotes = [
+        "꾸준한 자기계발과 다양한 경험으로 전문성과 경쟁력을 갖춘 사람으로 성장하고 싶어요.",
+        "관심 있는 분야에서 나만의 역량을 차곡차곡 쌓아 원하는 진로를 이루고 싶어요.",
+        "작은 도전을 이어가며, 스스로 만족할 수 있는 삶을 만들어가고 싶어요."
+      ];
+      let quoteIndex = 0;
+      document.getElementById("quoteBtn").addEventListener("click", function () {
+        quoteIndex = (quoteIndex + 1) % quotes.length;
+        document.getElementById("dreamQuote").textContent = quotes[quoteIndex];
+      });
+
+      function updateProgress() {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        const amount = scrollable > 0 ? Math.round((window.scrollY / scrollable) * 100) : 100;
+        document.getElementById("readingProgress").value = amount;
+        document.getElementById("progressLabel").textContent = amount + "% 읽음";
+      }
+      window.addEventListener("scroll", updateProgress, { passive: true });
+      window.addEventListener("resize", updateProgress);
+      updateProgress();
+    }());
+  </script>
+</body>
+</html>
